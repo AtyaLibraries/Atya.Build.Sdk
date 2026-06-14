@@ -1,0 +1,14 @@
+<Project Sdk="Atya.Build.Sdk">
+  <PropertyGroup>
+    <PackageId>Atya.Foundation.SdkProbe</PackageId>
+    <AssemblyName>Atya.Foundation.SdkProbe</AssemblyName>
+    <RootNamespace>Atya.Foundation.SdkProbe</RootNamespace>
+    <Description>Integration probe for the Atya.Build.Sdk package.</Description>
+    <Authors>AtyaLibraries</Authors>
+    <RepositoryUrl>https://github.com/AtyaLibraries/Atya.Build.Sdk</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

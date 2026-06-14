@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - development
+      - master
+  pull_request:
+    branches:
+      - development
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: tests/IntegrationConsumer/global.json
+
+      - name: Pack SDK
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.0.0
+
+      - name: Restore integration consumer
+        run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
+
+      - name: Build integration consumer
+        run: dotnet build ./tests/IntegrationConsumer/Consumer.csproj -c Release --no-restore
+
+      - name: Pack integration consumer
+        run: dotnet pack ./tests/IntegrationConsumer/Consumer.csproj -c Release -o ./_localfeed_out --no-restore
