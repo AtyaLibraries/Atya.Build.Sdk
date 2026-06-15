@@ -34,7 +34,7 @@ jobs:
           global-json-file: tests/IntegrationConsumer/global.json
 
       - name: Pack SDK
-        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.0.1
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.0.2
 
       - name: Restore integration consumer
         run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
