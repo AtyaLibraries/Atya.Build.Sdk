@@ -10,7 +10,7 @@ Pin the SDK version in the repository's `global.json`:
 ```json
 {
   "msbuild-sdks": {
-    "Atya.Build.Sdk": "1.0.1"
+    "Atya.Build.Sdk": "1.2.0"
   }
 }
 ```
@@ -46,6 +46,9 @@ All defaults are conditional and can be overridden in the consuming project.
   `PackageReadmeFile`, `GenerateDocumentationFile`, `IncludeSymbols`,
   `SymbolPackageFormat`, `DebugType`, `EmbedUntrackedSources`,
   `PublishRepositoryUrl`, `MinVerTagPrefix`
+- Test projects: centralized versions and injected references/global usings for
+  xUnit, FluentAssertions 7.2.0, NSubstitute, coverlet, and
+  Atya.Governance.Testing when `IsTestProject=true`
 
 Packable projects must use an `Atya.{Area}.{Name}` package ID, align
 `AssemblyName` and `RootNamespace` with `PackageId`, provide `Description`,
@@ -54,4 +57,5 @@ package metadata.
 
 Set `SkipPackageNamingValidation=true` for an explicit naming exception. Set
 `AtyaDisableBuildSdkGuards=true` only when all naming and metadata guards must be
-disabled.
+disabled. Set `AtyaDisableInjectedReferences=true` to opt out of injected package
+references.
