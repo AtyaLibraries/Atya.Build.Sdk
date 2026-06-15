@@ -1,6 +1,6 @@
 namespace Atya.Foundation.SdkProbe;
 
-internal static class Probe
+public sealed class Probe
 {
-    internal static string Name => nameof(Probe);
+    public int Value { get; set; }
 }
