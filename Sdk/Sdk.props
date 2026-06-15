@@ -44,7 +44,6 @@
 
   <PropertyGroup Label="Repository-derived (consumed by library project files)">
     <RepositoryHasGitDirectory Condition="'$(RepositoryHasGitDirectory)' == ''">true</RepositoryHasGitDirectory>
-    <RepositoryUrlIsConfigured Condition="'$(RepositoryUrlIsConfigured)' == ''">true</RepositoryUrlIsConfigured>
   </PropertyGroup>
 
   <PropertyGroup Label="Packaging defaults">
