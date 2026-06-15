@@ -31,10 +31,10 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v5
         with:
-          global-json-file: tests/IntegrationConsumer/global.json
+          global-json-file: tests/InjectedTestConsumer/global.json
 
       - name: Pack SDK
-        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.1.0
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.2.0
 
       - name: Restore integration consumer
         run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
@@ -61,3 +61,32 @@ jobs:
 
       - name: Pack integration consumer
         run: dotnet pack ./tests/IntegrationConsumer/Consumer.csproj -c Release -o ./_localfeed_out --no-restore
+
+      - name: Restore injected test consumer
+        run: dotnet restore ./tests/InjectedTestConsumer/InjectedTestConsumer.csproj
+
+      - name: Verify injected test package references
+        shell: pwsh
+        run: |
+          $packages = dotnet list ./tests/InjectedTestConsumer/InjectedTestConsumer.csproj package
+          $packages | Write-Output
+          $packageList = $packages -join [Environment]::NewLine
+
+          foreach ($expected in @{
+            "Microsoft.NET.Test.Sdk" = "18.5.1"
+            "xunit" = "2.9.3"
+            "xunit.runner.visualstudio" = "3.1.5"
+            "coverlet.collector" = "10.0.0"
+            "FluentAssertions" = "7.2.0"
+            "NSubstitute" = "5.3.0"
+            "NSubstitute.Analyzers.CSharp" = "1.0.17"
+            "Atya.Governance.Testing" = "1.0.0"
+          }.GetEnumerator()) {
+            $pattern = "(?m)^\s*>\s+$([regex]::Escape($expected.Key))\s+\S+\s+$([regex]::Escape($expected.Value))\s*$"
+            if ($packageList -notmatch $pattern) {
+              throw "Expected SDK-injected package reference '$($expected.Key)' at version '$($expected.Value)'."
+            }
+          }
+
+      - name: Test injected test consumer
+        run: dotnet test ./tests/InjectedTestConsumer/InjectedTestConsumer.csproj -c Release --no-restore
