@@ -1,5 +1,6 @@
 <Project Sdk="Atya.Build.Sdk">
   <PropertyGroup>
+    <IsPackable>true</IsPackable>
     <PackageId>Atya.Foundation.SdkProbe</PackageId>
     <AssemblyName>Atya.Foundation.SdkProbe</AssemblyName>
     <RootNamespace>Atya.Foundation.SdkProbe</RootNamespace>
@@ -10,12 +11,5 @@
 
   <ItemGroup>
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MinVer" PrivateAssets="all" Version="7.0.0"
-                      Condition="'$(RepositoryHasGitDirectory)' == 'true'" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" Version="10.0.300"
-                      Condition="'$(RepositoryHasGitDirectory)' == 'true'" />
   </ItemGroup>
 </Project>

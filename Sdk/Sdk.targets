@@ -1,6 +1,12 @@
 <Project>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
+  <ItemGroup Condition="'$(IsPackable)' == 'true' and '$(AtyaDisableInjectedReferences)' != 'true'">
+    <PackageReference Include="Atya.Governance.CodeQuality" PrivateAssets="all" />
+    <PackageReference Include="MinVer" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
   <Target Name="AtyaValidatePackageNaming"
           BeforeTargets="Build;Pack"
           Condition="'$(IsPackable)' == 'true' And '$(SkipPackageNamingValidation)' != 'true' And '$(AtyaDisableBuildSdkGuards)' != 'true'">
