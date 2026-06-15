@@ -10,7 +10,7 @@ Pin the SDK version in the repository's `global.json`:
 ```json
 {
   "msbuild-sdks": {
-    "Atya.Build.Sdk": "1.0.0"
+    "Atya.Build.Sdk": "1.0.1"
   }
 }
 ```
@@ -40,6 +40,8 @@ All defaults are conditional and can be overridden in the consuming project.
   `ImplicitUsings`
 - Build quality: `AnalysisLevel`, `EnforceCodeStyleInBuild`, `Deterministic`,
   `ContinuousIntegrationBuild`, `TreatWarningsAsErrors`
+- Repository-derived: `RepositoryHasGitDirectory`,
+  `RepositoryUrlIsConfigured`
 - Packaging: `Company`, `RepositoryType`, `PackageLicenseExpression`,
   `PackageReadmeFile`, `GenerateDocumentationFile`, `IncludeSymbols`,
   `SymbolPackageFormat`, `DebugType`, `EmbedUntrackedSources`,
