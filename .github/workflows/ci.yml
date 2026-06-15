@@ -34,10 +34,27 @@ jobs:
           global-json-file: tests/IntegrationConsumer/global.json
 
       - name: Pack SDK
-        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.0.2
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.1.0
 
       - name: Restore integration consumer
         run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
+
+      - name: Verify injected package references
+        shell: pwsh
+        run: |
+          $packages = dotnet list ./tests/IntegrationConsumer/Consumer.csproj package
+          $packages | Write-Output
+          $packageList = $packages -join [Environment]::NewLine
+
+          foreach ($package in @(
+            "Atya.Governance.CodeQuality",
+            "Microsoft.SourceLink.GitHub",
+            "MinVer"
+          )) {
+            if ($packageList -notmatch [regex]::Escape($package)) {
+              throw "Expected SDK-injected package reference '$package' was not resolved."
+            }
+          }
 
       - name: Build integration consumer
         run: dotnet build ./tests/IntegrationConsumer/Consumer.csproj -c Release --no-restore
