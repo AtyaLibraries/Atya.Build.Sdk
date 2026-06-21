@@ -6,11 +6,14 @@ on:
       - "v*.*.*"
 
 permissions:
+  attestations: write
   contents: read
+  id-token: write
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       - name: Check out
@@ -21,23 +24,22 @@ jobs:
         with:
           global-json-file: tests/IntegrationConsumer/global.json
 
-      - name: Require NuGet API key
-        shell: bash
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          if [ -z "$NUGET_API_KEY" ]; then
-            echo "NUGET_API_KEY is required to publish."
-            exit 1
-          fi
-
       - name: Pack SDK
         shell: bash
         run: |
           version="${GITHUB_REF_NAME#v}"
           dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./artifacts -p:PackageVersion="$version"
 
+      - name: Log in to NuGet.org
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ArsenAsulyan
+
       - name: Push package
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: dotnet nuget push "./artifacts/*.nupkg" --api-key "$NUGET_API_KEY" --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "./artifacts/*.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json
+
+      - name: Attest package provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ./artifacts/*.nupkg
