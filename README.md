@@ -10,7 +10,7 @@ Pin the SDK version in the repository's `global.json`:
 ```json
 {
   "msbuild-sdks": {
-    "Atya.Build.Sdk": "1.3.1"
+    "Atya.Build.Sdk": "1.3.2"
   }
 }
 ```
