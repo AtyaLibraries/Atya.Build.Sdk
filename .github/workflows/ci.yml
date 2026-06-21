@@ -34,7 +34,7 @@ jobs:
           global-json-file: tests/InjectedTestConsumer/global.json
 
       - name: Pack SDK
-        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.3.2
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.4.0
 
       - name: Restore integration consumer
         run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
@@ -81,10 +81,10 @@ jobs:
           $packageList = $packages -join [Environment]::NewLine
 
           foreach ($expected in @{
-            "Microsoft.NET.Test.Sdk" = "18.5.1"
-            "xunit" = "2.9.3"
+            "Microsoft.NET.Test.Sdk" = "18.6.0"
+            "xunit.v3" = "3.2.2"
             "xunit.runner.visualstudio" = "3.1.5"
-            "coverlet.collector" = "10.0.0"
+            "coverlet.collector" = "10.0.1"
             "FluentAssertions" = "7.2.0"
             "NSubstitute" = "5.3.0"
             "NSubstitute.Analyzers.CSharp" = "1.0.17"
