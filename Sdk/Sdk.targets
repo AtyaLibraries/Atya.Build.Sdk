@@ -1,4 +1,8 @@
 <Project>
+  <PropertyGroup>
+    <EnablePackageValidation Condition="'$(EnablePackageValidation)' == '' and '$(IsPackable)' == 'true'">true</EnablePackageValidation>
+  </PropertyGroup>
+
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
