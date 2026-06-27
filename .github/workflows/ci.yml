@@ -34,7 +34,7 @@ jobs:
           global-json-file: tests/InjectedTestConsumer/global.json
 
       - name: Pack SDK
-        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.4.0
+        run: dotnet pack ./src/Atya.Build.Sdk.csproj -c Release -o ./_localfeed -p:PackageVersion=1.5.0
 
       - name: Restore integration consumer
         run: dotnet restore ./tests/IntegrationConsumer/Consumer.csproj
@@ -88,7 +88,7 @@ jobs:
             "FluentAssertions" = "7.2.0"
             "NSubstitute" = "5.3.0"
             "NSubstitute.Analyzers.CSharp" = "1.0.17"
-            "Atya.Governance.Testing" = "1.0.0"
+            "Atya.Governance.Testing" = "1.1.0"
           }.GetEnumerator()) {
             $pattern = "(?m)^\s*>\s+$([regex]::Escape($expected.Key))\s+\S+\s+$([regex]::Escape($expected.Value))\s*$"
             if ($packageList -notmatch $pattern) {
