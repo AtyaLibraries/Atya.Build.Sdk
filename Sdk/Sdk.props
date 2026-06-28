@@ -51,6 +51,8 @@
     <RepositoryType Condition="'$(RepositoryType)' == ''">git</RepositoryType>
     <PackageLicenseExpression Condition="'$(PackageLicenseExpression)' == ''">MIT</PackageLicenseExpression>
     <PackageReadmeFile Condition="'$(PackageReadmeFile)' == ''">README.md</PackageReadmeFile>
+    <!-- Shared family icon shipped inside this SDK; applied to every packable project. -->
+    <PackageIcon Condition="'$(PackageIcon)' == '' And Exists('$(MSBuildThisFileDirectory)icon.png')">icon.png</PackageIcon>
     <GenerateDocumentationFile Condition="'$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <IncludeSymbols Condition="'$(IncludeSymbols)' == ''">true</IncludeSymbols>
@@ -60,4 +62,9 @@
     <PublishRepositoryUrl Condition="'$(PublishRepositoryUrl)' == ''">true</PublishRepositoryUrl>
     <MinVerTagPrefix Condition="'$(MinVerTagPrefix)' == ''">v</MinVerTagPrefix>
   </PropertyGroup>
+
+  <ItemGroup Label="Shared package icon (shipped inside Atya.Build.Sdk)"
+             Condition="'$(IsPackable)' == 'true' And '$(PackageIcon)' == 'icon.png' And Exists('$(MSBuildThisFileDirectory)icon.png')">
+    <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
 </Project>
