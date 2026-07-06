@@ -11,6 +11,11 @@
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
+    <TreatWarningsAsErrors Condition="'$(IsPackable)' == 'true'">true</TreatWarningsAsErrors>
+    <WarningsAsErrors>$(WarningsAsErrors);NU5104</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <RepositoryUrlIsConfigured Condition="'$(RepositoryUrlIsConfigured)' == '' And '$(RepositoryUrl)' != '' And !$(RepositoryUrl.Contains('__'))">true</RepositoryUrlIsConfigured>
     <RepositoryUrlIsConfigured Condition="'$(RepositoryUrlIsConfigured)' == ''">false</RepositoryUrlIsConfigured>
   </PropertyGroup>

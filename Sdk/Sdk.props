@@ -39,7 +39,6 @@
     <EnforceCodeStyleInBuild Condition="'$(EnforceCodeStyleInBuild)' == ''">true</EnforceCodeStyleInBuild>
     <Deterministic Condition="'$(Deterministic)' == ''">true</Deterministic>
     <ContinuousIntegrationBuild Condition="'$(ContinuousIntegrationBuild)' == '' And '$(CI)' == 'true'">true</ContinuousIntegrationBuild>
-    <TreatWarningsAsErrors Condition="'$(TreatWarningsAsErrors)' == '' And '$(IsPackable)' == 'true'">true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup Label="Repository-derived (consumed by library project files)">
@@ -54,7 +53,6 @@
     <!-- Shared family icon shipped inside this SDK; applied to every packable project. -->
     <PackageIcon Condition="'$(PackageIcon)' == '' And Exists('$(MSBuildThisFileDirectory)icon.png')">icon.png</PackageIcon>
     <GenerateDocumentationFile Condition="'$(GenerateDocumentationFile)' == ''">true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
     <IncludeSymbols Condition="'$(IncludeSymbols)' == ''">true</IncludeSymbols>
     <SymbolPackageFormat Condition="'$(SymbolPackageFormat)' == ''">snupkg</SymbolPackageFormat>
     <DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
