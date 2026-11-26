@@ -98,3 +98,34 @@ jobs:
 
       - name: Test injected test consumer
         run: dotnet test ./tests/InjectedTestConsumer/InjectedTestConsumer.csproj -c Release --no-restore
+
+  no-second-publish-path:
+    name: no second publishing path
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - name: Forbid repository-local NuGet publishing (ATYA-031)
+        shell: pwsh
+        run: |
+          # Releases go through AtyaLibraries/publisher only. Patterns are assembled from
+          # fragments so this file does not match itself.
+          $forbidden = @(
+            ('dotnet nuget' + ' push'),
+            ('NUGET_API' + '_KEY'),
+            ('NuGet/' + 'login'),
+            ('id-token:' + ' write'),
+            ('repository_' + 'dispatch'),
+            ('environment:' + ' production')
+          )
+          $hits = Get-ChildItem -Path .github/workflows -File |
+            Select-String -SimpleMatch -Pattern $forbidden
+          if ($hits) {
+            $hits | ForEach-Object { Write-Host "$($_.Filename):$($_.LineNumber): $($_.Line.Trim())" }
+            throw 'Repository-local publishing is not allowed; release through AtyaLibraries/publisher.'
+          }
+          if (Test-Path -LiteralPath .github/workflows/publish.yml) {
+            throw 'A repository-local publish.yml must not exist.'
+          }
